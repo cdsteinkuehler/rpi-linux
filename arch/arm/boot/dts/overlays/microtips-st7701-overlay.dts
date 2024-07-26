@@ -1,0 +1,44 @@
+/*
+ * Overlay for Microtips mtd0286adp04mf
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	dsi_frag:fragment@0 {
+		target = <&dsi1>;
+
+		__overlay__ {
+			status = "okay";
+            #address-cells = <1>;
+			#size-cells = <0>;
+
+            port {
+				dsi_out:endpoint {
+					remote-endpoint = <&panel_in>;
+				};
+			};
+
+            mtd0286adp04mf:mtd0286adp04mf@0 {
+				compatible    = "microtips,mtd0286adp04mf","sitronix,st7701";
+				reg = <0>;
+				status        = "okay";
+				reset-gpios = <&rp1_gpio 46 GPIO_ACTIVE_HIGH>;
+				port {
+					panel_in:endpoint {
+						remote-endpoint = <&dsi_out>;
+					};
+				};
+			};
+		};
+	};
+
+	__overrides__ {
+		dsi0 = <&dsi_frag>, "target:0=",<&dsi0>;
+	};
+};

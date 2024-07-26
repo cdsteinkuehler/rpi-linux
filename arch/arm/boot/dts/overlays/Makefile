@@ -162,6 +162,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
 	mcp342x.dtbo \
 	media-center.dtbo \
 	merus-amp.dtbo \
+	microtips-st7701.dtbo \
 	midi-uart0.dtbo \
 	midi-uart0-pi5.dtbo \
 	midi-uart1.dtbo \

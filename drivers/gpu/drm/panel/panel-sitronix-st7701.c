@@ -1079,6 +1079,148 @@ static const struct st7701_panel_desc hyperpixel2r_desc = {
 	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
 };
 
+static void mtd0286adp04mf_init_sequence(struct st7701 *st7701)
+{
+	st7701_switch_cmd_bkx(st7701, true, 3);
+
+	ST7701_DSI(st7701, 0xEF, 0x08);
+
+	st7701_switch_cmd_bkx(st7701, true, 0);
+
+	ST7701_DSI(st7701, DSI_CMD2_BK0_LNESET, 0x77, 0x00);
+
+	ST7701_DSI(st7701, DSI_CMD2_BK0_PORCTRL,
+		   FIELD_PREP(DSI_CMD2_BK0_PORCTRL_VBP_MASK, 12),
+		   FIELD_PREP(DSI_CMD2_BK0_PORCTRL_VFP_MASK, 12));
+
+	ST7701_DSI(st7701, DSI_CMD2_BK0_INVSEL, 0x07, 0x02);
+
+	ST7701_DSI(st7701, 0xCC, 0x10);
+
+	ST7701_DSI(st7701, DSI_CMD2_BK0_PVGAMCTRL,
+						0x00, 0x0C, 0x19, 0x0B,
+						0x0F, 0x06, 0x05, 0x08,
+						0x08, 0x1F, 0x04, 0x11,
+						0x0F, 0x26, 0x2F, 0x1D);
+
+	ST7701_DSI(st7701, DSI_CMD2_BK0_NVGAMCTRL,
+						0x00, 0x17, 0x19, 0x0F,
+						0x12, 0x05, 0x05, 0x08,
+						0x07, 0x1F, 0x03, 0x10,
+						0x10, 0x27, 0x2F, 0x1D);
+
+	st7701_switch_cmd_bkx(st7701, true, 1);
+
+	ST7701_DSI(st7701, DSI_CMD2_BK1_VRHS, 0x25);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_VCOM, 0x76);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_VGHSS,   0x81);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_TESTCMD, 0x80);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_VGLS,    0x4E);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_PWCTLR1, 0x85);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_PWCTLR2, 0x20);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_SPD1, 0x78);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_SPD2, 0x78);
+	ST7701_DSI(st7701, DSI_CMD2_BK1_MIPISET1, 0x88);
+
+	ST7701_DSI(st7701, 0xE0,
+						0x00, 0x00, 0x02, 0x00,
+						0x00, 0x0C);
+
+	ST7701_DSI(st7701, 0xE1,
+						0x02, 0x8C, 0x04, 0x8C,
+						0x01, 0x8C, 0x03, 0x8C,
+						0x00, 0x44, 0x44);
+
+	ST7701_DSI(st7701, 0xE2,
+						0x03, 0x03, 0x03, 0x03,
+						0x00, 0x00, 0xD4, 0x00,
+						0x00, 0x00, 0xD4, 0x00);
+
+	ST7701_DSI(st7701, 0xE3,
+						0x00, 0x00, 0x33, 0x33);
+
+	ST7701_DSI(st7701, 0xE4,
+						0x44, 0x44);
+
+	ST7701_DSI(st7701, 0xE5,
+						0x09, 0xD2, 0x35, 0x8C,
+						0x0B, 0xD4, 0x35, 0x8C,
+						0x05, 0xCE, 0x35, 0x8C,
+						0x07, 0xD0, 0x35, 0x8C);
+
+	ST7701_DSI(st7701, 0xE6,
+						0x00, 0x00, 0x33, 0x33);
+
+	ST7701_DSI(st7701, 0xE7,
+						0x44, 0x44);
+
+	ST7701_DSI(st7701, 0xE8,
+						0x08, 0xD1, 0x35, 0x8C,
+						0x0A, 0xD3, 0x35, 0x8C,
+						0x04, 0xCD, 0x35, 0x8C,
+						0x06, 0xCF, 0x35, 0x8C);
+
+	ST7701_DSI(st7701, 0xEB,
+						0x00, 0x01, 0xE4, 0xE4,
+						0x44, 0x33);
+
+	ST7701_DSI(st7701, 0xED,
+						0x77, 0x66, 0x55, 0x44,
+						0xCA, 0xF1, 0x03, 0xBF,
+						0xFB, 0x30, 0x1F, 0xAC,
+						0x44, 0x55, 0x66, 0x77);
+
+	ST7701_DSI(st7701, 0xEF,
+						0x10, 0x0D, 0x04, 0x08,
+						0x3F, 0x1F);
+
+	st7701_switch_cmd_bkx(st7701, true, 2);
+
+	ST7701_DSI(st7701, 0xE8, 0x00, 0x0E);
+
+	ST7701_DSI(st7701, MIPI_DCS_EXIT_SLEEP_MODE);
+
+	ST7701_DSI(st7701, 0xE8, 0x00, 0x0C);
+
+	ST7701_DSI(st7701, 0xE8, 0x00, 0x00);
+
+	st7701_switch_cmd_bkx(st7701, false, 0);
+
+	ST7701_DSI(st7701, MIPI_DCS_SET_TEAR_ON, 0x00);
+
+	ST7701_DSI(st7701, 0x36, 0x00);
+}
+
+static const struct drm_display_mode mtd0286adp04mf_mode = {
+	.clock		= 25000, // In kHz
+
+	.hdisplay	 = 376,
+	.hsync_start = 376 + 20,          // hdisplay + hFP
+	.hsync_end	 = 376 + 20 + 8,      // hdisplay + hFP + hsync
+	.htotal		 = 376 + 20 + 8 + 20, // hdisplay + hFP + hsync + hBP
+
+	.vdisplay	 = 960,
+	.vsync_start = 960 + 22,          // vdisplay + vFP
+	.vsync_end	 = 960 + 22 + 2,      // vdisplay + vFP + vsync
+	.vtotal		 = 960 + 22 + 2 + 20, // vdisplay + vFP + vsync + vBP
+
+	.width_mm	= 26,
+	.height_mm	= 67,
+
+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+};
+
+static const struct st7701_panel_desc mtd0286adp04mf_desc = {
+	.mode = &mtd0286adp04mf_mode,
+	.lanes = 1,
+	.format = MIPI_DSI_FMT_RGB888,
+	.panel_sleep_delay = 120,
+	.init_sequence = mtd0286adp04mf_init_sequence,
+	.conn_type = DRM_MODE_CONNECTOR_DSI,
+	.interface = ST7701_CTRL_DSI,
+	.gip_sequence = NULL,
+};
+
 static int st7701_probe(struct device *dev, struct st7701 **ret_st7701)
 {
 	const struct st7701_panel_desc *desc;
@@ -1106,6 +1248,8 @@ static int st7701_probe(struct device *dev, struct st7701 **ret_st7701)
 		dev_err(dev, "Couldn't get our reset GPIO\n");
 		return PTR_ERR(st7701->reset);
 	}
+
+	st7701->panel.prepare_prev_first = true;
 
 	drm_panel_init(&st7701->panel, dev, &st7701_funcs,
 		       desc->conn_type);
@@ -1145,7 +1289,12 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
 	if (ret)
 		return ret;
 
-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO
+					| MIPI_DSI_MODE_VIDEO_BURST
+					| MIPI_DSI_MODE_LPM
+					//| MIPI_DSI_MODE_NO_EOT_PACKET // Additional flag recommended by the manufacturer
+					| MIPI_DSI_CLOCK_NON_CONTINUOUS;
+
 	dsi->format = st7701->desc->format;
 	dsi->lanes = st7701->desc->lanes;
 
@@ -1179,6 +1328,7 @@ static const struct of_device_id st7701_dsi_of_match[] = {
 	{ .compatible = "densitron,dmt028vghmcmi-1a", .data = &dmt028vghmcmi_1a_desc },
 	{ .compatible = "elida,kd50t048a", .data = &kd50t048a_desc },
 	{ .compatible = "techstar,ts8550b", .data = &ts8550b_desc },
+	{ .compatible = "microtips,mtd0286adp04mf", .data = &mtd0286adp04mf_desc },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, st7701_dsi_of_match);
